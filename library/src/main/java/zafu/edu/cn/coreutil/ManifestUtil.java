@@ -1,5 +1,6 @@
 package zafu.edu.cn.coreutil;
 
+
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -10,6 +11,19 @@ import android.os.Bundle;
  * Time: 15:51
  */
 public class ManifestUtil {
+    /**
+     * 获得包名
+     * @param context 上下文
+     * @return 包名
+     */
+    public static String getPackageName(Context context){
+        try {
+            return context.getPackageManager().getPackageInfo(context.getPackageName(),0).packageName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     /**
      * 获得版本名
      * @param context 上下文

@@ -1,6 +1,7 @@
 package zafu.edu.cn.coreutil;
 
 import android.content.Context;
+import android.util.DisplayMetrics;
 
 /**
  * User:lizhangqu(513163535@qq.com)
@@ -50,5 +51,25 @@ public class DensityUtil {
     public static int sp2px(Context context,float spValue) {
         float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
         return (int) (spValue * fontScale + 0.5f);
+    }
+
+    /**
+     * 获取屏幕像素密度
+     * @param context 上下文
+     * @return 屏幕像素密度
+     */
+    public static float getDensity(Context context){
+        DisplayMetrics dm=context.getResources().getDisplayMetrics();
+        return dm.density;
+    }
+
+    /**
+     * 获取scaledDensity
+     * @param context 上下文
+     * @return scaledDensity
+     */
+    public static float getScaledDensity(Context context){
+        DisplayMetrics dm=context.getResources().getDisplayMetrics();
+        return dm.scaledDensity;
     }
 }
