@@ -7,6 +7,9 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <meta-data
+            android:name="key" android:value=""
+            />
         <activity
             android:name="zafu.edu.cn.coreutil.sample.MainActivity"
             android:label="@string/app_name" >
