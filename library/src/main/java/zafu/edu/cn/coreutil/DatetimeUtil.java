@@ -10,7 +10,7 @@ import java.util.GregorianCalendar;
  * Date:2015-07-29
  * Time: 14:10
  */
-public class DateUtil {
+public class DatetimeUtil {
     private static final String DEFAULT_FORMAT1="yyyy-MM-dd HH:mm:ss";
     //默认时间格式1 年-月-日 时:分:秒
     private static final String DEFAULT_FORMAT2="yyyy-MM-dd";
@@ -38,7 +38,7 @@ public class DateUtil {
     }
 
     /**
-     *
+     * 得到当前时间的格式化时间
      * @return 年-月-日 时:分:秒 格式的当前时间
      */
     public static String getCurrentDatetime(){
@@ -111,8 +111,8 @@ public class DateUtil {
 
     /**
      * 获得指定Date类型的毫秒数
-     * @param date
-     * @return
+     * @param date 指定的Date
+     * @return 指定Date类型的毫秒数
      */
     public static long getTimeMillis(Date date){
         return date.getTime();
@@ -120,7 +120,7 @@ public class DateUtil {
 
     /**
      * 获得当前时间的毫秒数
-     * @return
+     * @return 当前时间的毫秒数
      */
     public static long getCurrentDayTimeMillis(){
         return System.currentTimeMillis();
@@ -177,9 +177,9 @@ public class DateUtil {
     }
 
     /**
-     *
-     * @param i
-     * @return
+     * 根据输入的i,i 为 calendar的星期索引,返回星期几
+     * @param i calendar的星期索引
+     * @return 周几
      */
     public static String getSimpleDateOfWeek(int i){
         String date=null;
