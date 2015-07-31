@@ -1,5 +1,6 @@
 package zafu.edu.cn.coreutil;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -15,6 +16,8 @@ public class DatetimeUtil {
     //默认时间格式1 年-月-日 时:分:秒
     private static final String DEFAULT_FORMAT2="yyyy-MM-dd";
     //默认时间格式2 年-月-日
+    private static final String DEFAULT_FORMAT3="HH:mm:ss";
+    //默认时间格式3 时:分:秒
     public static final long DAY_TIME_MILLIS = 24 * 60 * 60 * 1000;
     //一天的毫秒数
     /**
@@ -51,7 +54,7 @@ public class DatetimeUtil {
      * @param format 格式化字符串
      * @return 格式化完后的时间
      */
-    public static String getCurrentDate(Date date,String format){
+    public static String getDate(Date date,String format){
         String currentDate=null;
         try {
             SimpleDateFormat formatter=new SimpleDateFormat(format);
@@ -70,9 +73,9 @@ public class DatetimeUtil {
      * @param format 格式化字符串
      * @return 格式化后的时间
      */
-    public static String getCurrentDate(long time,String format){
+    public static String getDate(long time,String format){
         Date date=new Date(time);
-        return getCurrentDate(date, format);
+        return getDate(date, format);
     }
 
     /**
@@ -80,8 +83,8 @@ public class DatetimeUtil {
      * @param date 时间Date
      * @return 格式化后的时间
      */
-    public static String getCurrentDate(Date date){
-        return getCurrentDate(date,DEFAULT_FORMAT2);
+    public static String getDate(Date date){
+        return getDate(date, DEFAULT_FORMAT2);
     }
 
     /**
@@ -89,8 +92,8 @@ public class DatetimeUtil {
      * @param time 毫秒数
      * @return 格式化后的时间
      */
-    public static String getCurrentDate(long time){
-        return getCurrentDate(time,DEFAULT_FORMAT2);
+    public static String getDate(long time){
+        return getDate(time, DEFAULT_FORMAT2);
     }
 
     /**
@@ -99,14 +102,14 @@ public class DatetimeUtil {
      * @return 格式化后的时间
      */
     public static String getCurrentDate(String format){
-        return getCurrentDate(System.currentTimeMillis(),format);
+        return getDate(System.currentTimeMillis(), format);
     }
     /**
      * 获得当前时间的格式化时间
      * @return 格式化后的时间
      */
     public static String getCurrentDate(){
-        return getCurrentDate(System.currentTimeMillis(), DEFAULT_FORMAT2);
+        return getDate(System.currentTimeMillis(), DEFAULT_FORMAT2);
     }
 
     /**
@@ -141,11 +144,38 @@ public class DatetimeUtil {
     public static long getPreDayTimeMillis(){
         return getCurrentDayTimeMillis()-DAY_TIME_MILLIS;
     }
+
+    /**
+     *  根据输入的String 例如 2013-03-07， 返回周四
+     * @param strDate
+     * @return
+     */
+    public static String getDayOfweek(String strDate) {
+        Calendar calendar = Calendar.getInstance();
+        if (strDate == null) {
+            return null;
+        }
+
+        String[] dateSlipt = strDate.split("-");
+        if (dateSlipt.length != 3 | dateSlipt.length == 0) {
+            return null;
+        }
+
+        calendar.set(Calendar.YEAR, Integer.valueOf(dateSlipt[0]));
+        calendar.set(Calendar.MONTH, Integer.valueOf(dateSlipt[1]) - 1);
+        calendar.set(Calendar.DAY_OF_MONTH, Integer.valueOf(dateSlipt[2]));
+
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+
+        return getSimpleDateOfWeek(dayOfWeek);
+
+    }
     /**
      * 根据输入的i,i 为 calendar的星期索引,返回星期几
      * @param i calendar的星期索引
      * @return 星期几
      */
+
     public static String getDateOfWeek(int i){
         String date=null;
         switch (i){
@@ -209,5 +239,74 @@ public class DatetimeUtil {
                 break;
         }
         return  date;
+    }
+
+    /**
+     * 将格式化过的时间串转换成毫秒
+     * @param day 将格式化过的时间
+     * @param format 格式化字符串
+     * @return 毫秒
+     */
+    public static long convertMillisecond(String day, String format) {
+        if (day == null || format == null)
+            return 0;
+        SimpleDateFormat formatter = new SimpleDateFormat(format);
+        try {
+            Date dt = formatter.parse(day);
+            return dt.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    /**
+     * 得到两个日期的天数
+     * @param sdate1 日期一
+     * @param sdate2 日期二
+     * @return 天数
+     */
+    public static int getDateInterval(String sdate1, String sdate2) {
+        Date date1 = null;
+        Date date2 = null;
+        long betweenDays=0;
+
+        try {
+            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(sdate1);
+            date2 = new SimpleDateFormat("yyyy-MM-dd").parse(sdate2);
+
+            long beginTime = date1.getTime();
+            long endTime = date2.getTime();
+            betweenDays = (long) ((endTime - beginTime) / (1000 * 60 * 60 * 24));
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return (int) betweenDays;
+    }
+
+    /**
+     * 时间比较
+     * @param format 格式化字符串
+     * @param time1 时间1
+     * @param time2 时间2
+     * @return time1比time2早返回-1,time1与time2相同返回0,time1比time2晚返回1
+     */
+    public static int compareTime(String format, String time1, String time2) {
+        if (format == null || time1 == null || time2 == null)
+            return 0;
+        SimpleDateFormat formatter = new SimpleDateFormat(format);
+        Calendar c1 = Calendar.getInstance();
+        Calendar c2 = Calendar.getInstance();
+
+        try {
+            c1.setTime(formatter.parse(time1));
+            c2.setTime(formatter.parse(time2));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return c1.compareTo(c2);
     }
 }
