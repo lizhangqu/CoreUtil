@@ -17,6 +17,7 @@ import javax.net.ssl.TrustManagerFactory;
  * Time: 12:52
  */
 public class SSLUtil {
+    //使用命令keytool -printcert -rfc -file srca.cer 导出证书为字符串，然后将字符串转换为输入流，如果使用的是okhttp可以直接使用new Buffer().writeUtf8(s).inputStream()
     /**
      * 返回SSLSocketFactory
      * @param certificates 证书的输入流
