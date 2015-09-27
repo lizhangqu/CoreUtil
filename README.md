@@ -1,1 +1,1 @@
-CoreUtil is an android tools which contains some useful utilities
+CoreUtil is an android tools which contains some useful utilities.
